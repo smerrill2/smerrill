@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spencer Merrill</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white: #fafafa;
+    --blue: #1d4ed8;
+    --blue-light: #dbeafe;
+    --coral: #ff6b4a;
+    --dark: #0f172a;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--white);
+    color: var(--dark);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  ::selection {
+    background: var(--coral);
+    color: white;
+  }
+
+  /* ============ NEWSPAPER INTRO ============ */
+  #newspaper-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 1000;
+    pointer-events: none;
+    background: var(--white);
+  }
+
+  .clip {
+    position: absolute;
+    background: white;
+    padding: 20px 24px;
+    opacity: 0;
+    transform-origin: center center;
+    border: 1.5px solid var(--dark);
+  }
+
+  .clip .mono {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .clip h2 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 1.1;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .clip .big-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 54px;
+    line-height: 1;
+    color: var(--coral);
+  }
+
+  .clip .big-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  .clip p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--gray);
+  }
+
+  .clip-1 { width: 360px; top: 4%; left: 6%; }
+  .clip-2 { width: 260px; top: 8%; right: 8%; }
+  .clip-3 { width: 340px; top: 42%; left: 3%; }
+  .clip-4 { width: 240px; top: 36%; right: 6%; }
+  .clip-5 { width: 300px; top: 68%; left: 25%; }
+  .clip-6 { width: 320px; bottom: 6%; left: 8%; }
+  .clip-7 { width: 260px; bottom: 10%; right: 10%; }
+
+  @keyframes slap1 { from { opacity:0; transform: translate(-110vw,-30vh) rotate(-40deg) scale(.5); } to { opacity:1; transform: translate(0,0) rotate(-2deg); } }
+  @keyframes slap2 { from { opacity:0; transform: translate(110vw,-50vh) rotate(35deg) scale(.5); } to { opacity:1; transform: translate(0,0) rotate(3deg); } }
+  @keyframes slap3 { from { opacity:0; transform: translate(-90vw,70vh) rotate(30deg) scale(.6); } to { opacity:1; transform: translate(0,0) rotate(-1.5deg); } }
+  @keyframes slap4 { from { opacity:0; transform: translate(100vw,40vh) rotate(-25deg) scale(.5); } to { opacity:1; transform: translate(0,0) rotate(4deg); } }
+  @keyframes slap5 { from { opacity:0; transform: translateY(-110vh) rotate(20deg) scale(.5); } to { opacity:1; transform: translate(0,0) rotate(-0.5deg); } }
+  @keyframes slap6 { from { opacity:0; transform: translate(-120vw,20vh) rotate(-15deg) scale(.6); } to { opacity:1; transform: translate(0,0) rotate(2deg); } }
+  @keyframes slap7 { from { opacity:0; transform: translate(90vw,-20vh) rotate(30deg) scale(.5); } to { opacity:1; transform: translate(0,0) rotate(-3deg); } }
+
+  @keyframes yeet1 { to { opacity:0; transform: translate(130vw,-60vh) rotate(50deg) scale(.2); } }
+  @keyframes yeet2 { to { opacity:0; transform: translate(-120vw,-80vh) rotate(-45deg) scale(.2); } }
+  @keyframes yeet3 { to { opacity:0; transform: translate(120vw,50vh) rotate(40deg) scale(.2); } }
+  @keyframes yeet4 { to { opacity:0; transform: translate(-110vw,60vh) rotate(-35deg) scale(.2); } }
+  @keyframes yeet5 { to { opacity:0; transform: translate(70vw,-110vh) rotate(60deg) scale(.2); } }
+  @keyframes yeet6 { to { opacity:0; transform: translate(-80vw,-60vh) rotate(-25deg) scale(.2); } }
+  @keyframes yeet7 { to { opacity:0; transform: translate(110vw,70vh) rotate(45deg) scale(.2); } }
+
+  .clip-1 { animation: slap1 .55s cubic-bezier(.22,1,.36,1) .05s forwards, yeet1 .6s cubic-bezier(.6,0,1,.4) 2.8s forwards; }
+  .clip-2 { animation: slap2 .55s cubic-bezier(.22,1,.36,1) .15s forwards, yeet2 .6s cubic-bezier(.6,0,1,.4) 2.9s forwards; }
+  .clip-3 { animation: slap3 .55s cubic-bezier(.22,1,.36,1) .3s forwards, yeet3 .6s cubic-bezier(.6,0,1,.4) 3.0s forwards; }
+  .clip-4 { animation: slap4 .55s cubic-bezier(.22,1,.36,1) .4s forwards, yeet4 .6s cubic-bezier(.6,0,1,.4) 3.1s forwards; }
+  .clip-5 { animation: slap5 .55s cubic-bezier(.22,1,.36,1) .55s forwards, yeet5 .6s cubic-bezier(.6,0,1,.4) 3.2s forwards; }
+  .clip-6 { animation: slap6 .55s cubic-bezier(.22,1,.36,1) .65s forwards, yeet6 .6s cubic-bezier(.6,0,1,.4) 3.3s forwards; }
+  .clip-7 { animation: slap7 .55s cubic-bezier(.22,1,.36,1) .8s forwards, yeet7 .6s cubic-bezier(.6,0,1,.4) 3.4s forwards; }
+
+  @keyframes overlayFade { to { opacity: 0; pointer-events: none; } }
+  #newspaper-overlay { animation: overlayFade .5s ease 3.8s forwards; }
+
+  /* ============ MAIN SITE ============ */
+  #site {
+    opacity: 0;
+    animation: siteIn 1s ease 3.6s forwards;
+  }
+  @keyframes siteIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 24px;
+  }
+
+  .hero-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(56px, 7vw, 110px);
+    line-height: 0.9;
+    letter-spacing: -3px;
+    color: var(--dark);
+    margin-bottom: 32px;
+  }
+
+  .hero-name span {
+    display: block;
+    color: var(--blue);
+  }
+
+  .hero-bio {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--gray);
+    max-width: 440px;
+    margin-bottom: 40px;
+  }
+
+  .hero-nav {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero-nav a {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--dark);
+    padding: 12px 24px;
+    border: 1.5px solid var(--dark);
+    transition: all .2s;
+  }
+
+  .hero-nav a:hover {
+    background: var(--dark);
+    color: white;
+  }
+
+  .hero-nav a.primary {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: white;
+  }
+
+  .hero-nav a.primary:hover {
+    background: #e85a3a;
+    border-color: #e85a3a;
+  }
+
+  .hero-right {
+    background: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right-content {
+    color: white;
+    padding: 60px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-right .big-stat {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 120px;
+    line-height: 1;
+    opacity: 0.15;
+    position: absolute;
+    bottom: -20px;
+    right: 20px;
+  }
+
+  .hero-right .stat-item {
+    margin-bottom: 48px;
+  }
+
+  .hero-right .stat-item:last-child { margin-bottom: 0; }
+
+  .hero-right .stat-val {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .hero-right .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    z-index: 3;
+  }
+
+  .hero-scroll span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--gray);
+    writing-mode: vertical-rl;
+    animation: bob 2s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+
+  /* ---- MARQUEE ---- */
+  .marquee-strip {
+    background: var(--dark);
+    padding: 16px 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee-track {
+    display: inline-block;
+    animation: marquee 20s linear infinite;
+  }
+
+  .marquee-track span {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    padding: 0 40px;
+  }
+
+  .marquee-track .dot {
+    color: var(--coral);
+    padding: 0 20px;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ---- SECTIONS ---- */
+  .s-pad {
+    padding: 120px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .s-header {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 80px;
+  }
+
+  .s-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 80px;
+    line-height: 1;
+    color: var(--blue-light);
+    letter-spacing: -3px;
+  }
+
+  .s-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: -1px;
+    color: var(--dark);
+  }
+
+  /* ---- EXPERIENCE ---- */
+  .exp-grid {
+    display: grid;
+    gap: 0;
+  }
+
+  .exp-row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 40px;
+    padding: 48px 0;
+    border-top: 1.5px solid var(--gray-light);
+    position: relative;
+  }
+
+  .exp-row:last-child {
+    border-bottom: 1.5px solid var(--gray-light);
+  }
+
+  .exp-row:hover {
+    background: linear-gradient(90deg, transparent, rgba(29,78,216,0.02), transparent);
+  }
+
+  .exp-when {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--gray);
+    padding-top: 6px;
+  }
+
+  .exp-role {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    color: var(--dark);
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+  }
+
+  .exp-co {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--blue);
+    margin-bottom: 16px;
+  }
+
+  .exp-co a {
+    color: var(--blue);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .2s;
+  }
+
+  .exp-co a:hover {
+    border-bottom-color: var(--blue);
+  }
+
+  .exp-logo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .exp-logo img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .exp-logo a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--blue);
+    padding: 5px 12px;
+    border: 1px solid var(--blue);
+    border-radius: 100px;
+    transition: all .2s;
+  }
+
+  .exp-logo a:hover {
+    background: var(--blue);
+    color: white;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    padding: 0;
+  }
+
+  .exp-bullets li {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 8px;
+    padding-left: 24px;
+    position: relative;
+  }
+
+  .exp-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 8px;
+    height: 2px;
+    background: var(--coral);
+  }
+
+  /* ---- PROJECT THUMBNAILS ---- */
+  .project-grid {
+    margin-top: 28px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+  }
+
+  .proj-thumb {
+    position: relative;
+    overflow: hidden;
+    border: 1.5px solid var(--gray-light);
+    border-radius: 4px;
+    aspect-ratio: 16 / 10;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  .proj-thumb:hover {
+    border-color: var(--blue);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(29,78,216,0.1);
+  }
+
+  .proj-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    transition: transform .4s ease;
+  }
+
+  .proj-thumb:hover img {
+    transform: scale(1.03);
+  }
+
+  .proj-thumb .proj-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent 40%, rgba(15,23,42,0.85));
+    opacity: 0;
+    transition: opacity .3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 16px;
+  }
+
+  .proj-thumb:hover .proj-overlay {
+    opacity: 1;
+  }
+
+  .proj-overlay .proj-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: white;
+    margin-bottom: 2px;
+  }
+
+  .proj-overlay .proj-type {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .proj-overlay .proj-visit {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: white;
+    color: var(--dark);
+    padding: 5px 10px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: all .2s;
+  }
+
+  .proj-overlay .proj-visit:hover {
+    background: var(--blue);
+    color: white;
+  }
+
+  @media (max-width: 768px) {
+    .project-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* ---- NEWSLETTER BENTO ---- */
+  .newsletter-bento {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+  }
+
+  .nl-card {
+    border: 1.5px solid var(--gray-light);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: all .3s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nl-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(29,78,216,0.08);
+  }
+
+  .nl-card.featured {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    background: linear-gradient(135deg, var(--blue-light) 0%, #f0f4ff 100%);
+    border-color: var(--blue);
+  }
+
+  .nl-card .nl-issue {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 10px;
+  }
+
+  .nl-card .nl-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--dark);
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+    line-height: 1.25;
+  }
+
+  .nl-card.featured .nl-title {
+    font-size: 22px;
+  }
+
+  .nl-card .nl-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--gray);
+    margin-bottom: 16px;
+    flex: 1;
+  }
+
+  .nl-topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .nl-topic {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    background: white;
+    color: var(--dark);
+    border: 1px solid var(--gray-light);
+  }
+
+  .nl-card.featured .nl-topic {
+    background: white;
+  }
+
+  .nl-preview {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid var(--gray-light);
+    max-height: 260px;
+    cursor: pointer;
+  }
+
+  .nl-preview img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .nl-preview-fade {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(transparent, white);
+    pointer-events: none;
+  }
+
+  .nl-card.featured .nl-preview-fade {
+    background: linear-gradient(transparent, #f0f4ff);
+  }
+
+  .nl-preview-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--dark);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 100px;
+    z-index: 2;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  .nl-card .nl-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--gray-light);
+  }
+
+  .nl-card .nl-author {
+    font-size: 12px;
+    color: var(--dark);
+    font-weight: 500;
+  }
+
+  .nl-card .nl-org {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* Lightbox */
+  .nl-lightbox {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(15,23,42,0.9);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px;
+    overflow-y: auto;
+    cursor: pointer;
+  }
+
+  .nl-lightbox.open { display: flex; }
+
+  .nl-lightbox img {
+    max-width: 700px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: default;
+  }
+
+  .nl-lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 28px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: white;
+    background: transparent;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 2001;
+    transition: all .2s;
+  }
+
+  .nl-lightbox-close:hover {
+    background: white;
+    color: var(--dark);
+  }
+
+  @media (max-width: 768px) {
+    .newsletter-bento { grid-template-columns: 1fr; }
+    .nl-card.featured { grid-template-columns: 1fr; }
+  }
+
+  /* ---- BIG QUOTE STRIP ---- */
+  .quote-strip {
+    background: var(--coral);
+    padding: 80px 60px;
+    text-align: center;
+  }
+
+  .quote-strip p {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    font-size: clamp(24px, 4vw, 44px);
+    color: white;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.3;
+    letter-spacing: -1px;
+  }
+
+  /* ---- EDUCATION ---- */
+  .edu-stack {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+
+  .edu-card {
+    border: 1.5px solid var(--gray-light);
+    padding: 40px;
+    position: relative;
+    transition: all .3s;
+  }
+
+  .edu-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(29,78,216,0.08);
+  }
+
+  .edu-card .edu-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: white;
+    background: var(--blue);
+    padding: 4px 10px;
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  .edu-card .edu-degree {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--dark);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+  }
+
+  .edu-card .edu-school {
+    font-size: 14px;
+    color: var(--gray);
+    margin-bottom: 12px;
+  }
+
+  .edu-card .edu-gpa {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    color: var(--coral);
+  }
+
+  .edu-card .edu-gpa-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* ---- SKILLS ---- */
+  .skills-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+  }
+
+  .skill-cat {
+    margin-bottom: 40px;
+  }
+
+  .skill-cat:last-child { margin-bottom: 0; }
+
+  .skill-cat-name {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1.5px solid var(--blue-light);
+  }
+
+  .skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .pill {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--dark);
+    padding: 8px 16px;
+    border: 1px solid var(--gray-light);
+    border-radius: 100px;
+    transition: all .2s;
+    cursor: default;
+  }
+
+  .pill:hover {
+    border-color: var(--blue);
+    background: var(--blue-light);
+    color: var(--blue);
+  }
+
+  /* ---- CONTACT ---- */
+  .contact {
+    background: var(--dark);
+    color: white;
+    padding: 120px 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .contact-left .contact-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 20px;
+  }
+
+  .contact-left h2 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+
+  .contact-left p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  .contact-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 28px;
+    border: 1px solid rgba(255,255,255,0.15);
+    text-decoration: none;
+    color: white;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all .2s;
+  }
+
+  .contact-link:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  .contact-link .arrow {
+    font-size: 20px;
+    transition: transform .2s;
+  }
+
+  .contact-link:hover .arrow {
+    transform: translateX(6px);
+  }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 30px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+  }
+
+  /* ---- SKIP ---- */
+  #skip-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 1001;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    background: white;
+    border: 1.5px solid var(--dark);
+    color: var(--dark);
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all .2s;
+  }
+
+  #skip-btn:hover { background: var(--dark); color: white; }
+  #skip-btn.gone { display: none; }
+
+  /* ---- SCROLL REVEAL ---- */
+  .rv { opacity: 0; transform: translateY(50px); transition: opacity .7s ease, transform .7s ease; }
+  .rv.on { opacity: 1; transform: translateY(0); }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 60px 28px; }
+    .hero-right { min-height: 50vh; }
+    .hero-right-content { padding: 40px 28px; }
+    .hero-scroll { display: none; }
+    .s-pad { padding: 80px 28px; }
+    .s-num { font-size: 48px; }
+    .exp-row { grid-template-columns: 1fr; gap: 8px; }
+    .edu-stack { grid-template-columns: 1fr; }
+    .skills-wrap { grid-template-columns: 1fr; }
+    .contact { grid-template-columns: 1fr; padding: 80px 28px; }
+    .quote-strip { padding: 60px 28px; }
+    footer { padding: 20px 28px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NEWSPAPER INTRO ============ -->
+<div id="newspaper-overlay">
+  <div class="clip clip-1">
+    <div class="mono"><span>The Daily Innovator</span><span>Berkeley, CA</span></div>
+    <h2>AI Agent Increases Ad Click-Through Rate From 2% to 10%</h2>
+    <p>Kettio AI founder develops marketing agent that ranks creative assets against target audiences, slashing ad spend.</p>
+  </div>
+  <div class="clip clip-2">
+    <div class="mono"><span>By The Numbers</span></div>
+    <div class="big-num">200+</div>
+    <div class="big-label">Businesses Transformed</div>
+  </div>
+  <div class="clip clip-3">
+    <div class="mono"><span>Tech Chronicle</span><span>Vol. XII</span></div>
+    <h2>$56K Annual Impact From Single AI System Deployment</h2>
+    <p>Multi-location operational AI generates $20K savings + $36K new revenue through multilingual coordination.</p>
+  </div>
+  <div class="clip clip-4">
+    <div class="mono"><span>Innovation Weekly</span></div>
+    <div class="big-num">$100K</div>
+    <div class="big-label">Grant Secured for AI</div>
+  </div>
+  <div class="clip clip-5">
+    <div class="mono"><span>Evening Post</span><span>Education</span></div>
+    <h2>WSU Graduate Earns Master's With Perfect 4.0 GPA</h2>
+    <p>Master of Innovation Design, following BA in Fine Arts with Creative Writing emphasis, Cum Laude.</p>
+  </div>
+  <div class="clip clip-6">
+    <div class="mono"><span>Digital Frontiers</span></div>
+    <h2>React Platform Generates $60K Revenue Increase</h2>
+    <p>Lead conversion jumps from 1 to 5 monthly qualified prospects.</p>
+  </div>
+  <div class="clip clip-7">
+    <div class="mono"><span>AI Quarterly</span></div>
+    <div class="big-num">60%</div>
+    <div class="big-label">Dev Time Reduction</div>
+  </div>
+</div>
+
+<button id="skip-btn" onclick="skip()">Skip</button>
+
+<!-- ============ MAIN SITE ============ -->
+<div id="site">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">AI Solutions + Business Transformation</div>
+      <h1 class="hero-name">Spencer<span>Merrill.</span></h1>
+      <p class="hero-bio">Building AI systems that actually move the needle. Currently creating Kettio AI — an AI-driven media buyer for SMBs that turns ad spend into real results.</p>
+      <div class="hero-nav">
+        <a href="mailto:spencer@brandimagegen.com" class="primary">Get In Touch</a>
+        <a href="#work">See Work</a>
+        <a href="https://linkedin.com/in/spencermerrill" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-right-content">
+        <div class="stat-item">
+          <div class="stat-val">200+</div>
+          <div class="stat-label">Businesses Consulted</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">$236K+</div>
+          <div class="stat-label">Revenue Generated</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">60%</div>
+          <div class="stat-label">Dev Time Reduced</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-val">4.0</div>
+          <div class="stat-label">Master's GPA</div>
+        </div>
+      </div>
+      <div class="big-stat">SM</div>
+    </div>
+    <div class="hero-scroll"><span>Scroll</span></div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>AI Strategy</span><span class="dot">/</span>
+      <span>Context Engineering</span><span class="dot">/</span>
+      <span>Claude SDK</span><span class="dot">/</span>
+      <span>MCP</span><span class="dot">/</span>
+      <span>React</span><span class="dot">/</span>
+      <span>Conversion Optimization</span><span class="dot">/</span>
+      <span>Agent Integration</span><span class="dot">/</span>
+      <span>Design Thinking</span><span class="dot">/</span>
+      <span>AI Strategy</span><span class="dot">/</span>
+      <span>Context Engineering</span><span class="dot">/</span>
+      <span>Claude SDK</span><span class="dot">/</span>
+      <span>MCP</span><span class="dot">/</span>
+      <span>React</span><span class="dot">/</span>
+      <span>Conversion Optimization</span><span class="dot">/</span>
+      <span>Agent Integration</span><span class="dot">/</span>
+      <span>Design Thinking</span><span class="dot">/</span>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="s-pad" id="work">
+    <div class="s-header rv">
+      <div class="s-num">01</div>
+      <div class="s-title">Experience</div>
+    </div>
+
+    <div class="exp-grid">
+      <div class="exp-row rv">
+        <div class="exp-when">Oct 2025 — Now</div>
+        <div>
+          <div class="exp-logo">
+            <img src="kettio-logo.png" alt="Kettio AI">
+            <a href="https://kettio.ai" target="_blank">Visit Site &rarr;</a>
+          </div>
+          <div class="exp-role">Founder</div>
+          <div class="exp-co"><a href="https://kettio.ai" target="_blank">Kettio AI</a> — Berkeley, CA</div>
+          <ul class="exp-bullets">
+            <li>Built a marketing agent that compares and ranks creative assets against target audiences, cutting ad testing spend</li>
+            <li>Increased client ad CTR from 2% to 10%, generating over $120K in additional leads for an outdoor lighting company</li>
+            <li>Created a novel interface for image generation models that redefines the current tool landscape</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="exp-row rv">
+        <div class="exp-when">Nov 2024 — Dec 2025</div>
+        <div>
+          <div class="exp-role">AI Specialist</div>
+          <div class="exp-co">Kansas Small Business Development Center — Wichita, KS</div>
+          <ul class="exp-bullets">
+            <li>Led AI transformation initiatives for 200+ businesses with strategic consulting on tool selection, implementation, and workflow optimization</li>
+            <li>Implemented multi-location AI system for a cleaning company, generating $56K annual impact through multilingual coordination and supply chain efficiency</li>
+            <li>Provided tool-agnostic consulting across ChatGPT, Claude, and emerging platforms — context engineering and MCP specialist</li>
+            <li>Conducted executive training focused on measurable business outcomes</li>
+            <li>Secured $100K grant for AI Innovation, driving upskilling across five state centers</li>
+          </ul>
+
+          <!-- Newsletter Bento -->
+          <div class="newsletter-bento">
+
+            <div class="nl-card featured rv">
+              <div>
+                <div class="nl-issue">AI Weekly Newsletter</div>
+                <div class="nl-title">Kansas' First Statewide AI Newsletter for Government, Advisors &amp; Small Business Owners</div>
+                <div class="nl-desc">Authored and distributed a weekly AI newsletter reaching government officials, SBDC advisors, and small business owners across all five Kansas SBDC centers. Translated cutting-edge AI developments into actionable insights for non-technical audiences — bridging the gap between Silicon Valley and Main Street.</div>
+                <div class="nl-topics">
+                  <span class="nl-topic">Statewide Distribution</span>
+                  <span class="nl-topic">Government</span>
+                  <span class="nl-topic">SBDC Advisors</span>
+                  <span class="nl-topic">SMB Owners</span>
+                </div>
+                <div class="nl-meta">
+                  <span class="nl-author">Spencer Merrill</span>
+                  <span class="nl-org">KSBDC &middot; Wichita State University &middot; SBA</span>
+                </div>
+              </div>
+              <div class="nl-preview" onclick="openLightbox('newsletters/issue-1.png')">
+                <img src="newsletters/issue-1.png" alt="Newsletter Issue 1" loading="lazy">
+                <div class="nl-preview-fade"></div>
+                <div class="nl-preview-badge">Read Issue 01</div>
+              </div>
+            </div>
+
+            <div class="nl-card rv">
+              <div class="nl-issue">Issue 02</div>
+              <div class="nl-title">AI Adoption by Industry &amp; Practical Tool Showcases</div>
+              <div class="nl-desc">Equipped advisors with industry-specific AI adoption data so they could have informed conversations with business owners across sectors — from healthcare to retail.</div>
+              <div class="nl-topics">
+                <span class="nl-topic">Advisor Enablement</span>
+                <span class="nl-topic">Industry Data</span>
+              </div>
+              <div class="nl-preview" onclick="openLightbox('newsletters/issue-2.png')">
+                <img src="newsletters/issue-2.png" alt="Newsletter Issue 2" loading="lazy">
+                <div class="nl-preview-fade"></div>
+                <div class="nl-preview-badge">Read Issue</div>
+              </div>
+              <div class="nl-meta">
+                <span class="nl-author">Spencer Merrill</span>
+                <span class="nl-org">KSBDC</span>
+              </div>
+            </div>
+
+            <div class="nl-card rv">
+              <div class="nl-issue">Issue 03</div>
+              <div class="nl-title">Context Engineering &amp; MCP — Making AI Accessible</div>
+              <div class="nl-desc">Broke down advanced AI concepts like context engineering and Model Context Protocol for a general business audience — giving advisors the language to guide their clients.</div>
+              <div class="nl-topics">
+                <span class="nl-topic">AI Literacy</span>
+                <span class="nl-topic">Advisor Training</span>
+              </div>
+              <div class="nl-preview" onclick="openLightbox('newsletters/issue-3.png')">
+                <img src="newsletters/issue-3.png" alt="Newsletter Issue 3" loading="lazy">
+                <div class="nl-preview-fade"></div>
+                <div class="nl-preview-badge">Read Issue</div>
+              </div>
+              <div class="nl-meta">
+                <span class="nl-author">Spencer Merrill</span>
+                <span class="nl-org">KSBDC</span>
+              </div>
+            </div>
+
+            <div class="nl-card rv" style="grid-column: 1 / -1;">
+              <div class="nl-issue">Issue 04 — Expanded 3-Page Edition</div>
+              <div class="nl-title">AI in Government &amp; the Policy Implications for Kansas Business</div>
+              <div class="nl-desc">The newsletter's growth demanded a multi-page format. Covered AI's role in government, emerging world models, and new model releases — giving state officials and advisors the full picture on where AI policy and business intersect.</div>
+              <div class="nl-topics">
+                <span class="nl-topic">Government Policy</span>
+                <span class="nl-topic">Statewide Reach</span>
+                <span class="nl-topic">Multi-Page Format</span>
+              </div>
+              <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+                <div class="nl-preview" onclick="openLightbox('newsletters/issue-4.png')">
+                  <img src="newsletters/issue-4.png" alt="Newsletter Issue 4 - Page 1" loading="lazy">
+                  <div class="nl-preview-fade"></div>
+                  <div class="nl-preview-badge">Page 1</div>
+                </div>
+                <div class="nl-preview" onclick="openLightbox('newsletters/issue-4-p2.png')">
+                  <img src="newsletters/issue-4-p2.png" alt="Newsletter Issue 4 - Page 2" loading="lazy">
+                  <div class="nl-preview-fade"></div>
+                  <div class="nl-preview-badge">Page 2</div>
+                </div>
+                <div class="nl-preview" onclick="openLightbox('newsletters/issue-4-p3.png')">
+                  <img src="newsletters/issue-4-p3.png" alt="Newsletter Issue 4 - Page 3" loading="lazy">
+                  <div class="nl-preview-fade"></div>
+                  <div class="nl-preview-badge">Page 3</div>
+                </div>
+              </div>
+              <div class="nl-meta">
+                <span class="nl-author">Spencer Merrill</span>
+                <span class="nl-org">KSBDC &middot; Wichita State University &middot; SBA</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="exp-row rv">
+        <div class="exp-when">Apr 2022 — Jul 2025</div>
+        <div>
+          <div class="exp-role">AI Powered Solutions Expert</div>
+          <div class="exp-co">Lawn Logic — Wichita, KS</div>
+          <ul class="exp-bullets">
+            <li>Founded dev company delivering custom websites and AI solutions across healthcare, product, and service industries</li>
+            <li>Generated $60K annual revenue increase for an outdoor lighting client through a strategic React-based showcase platform</li>
+            <li>Developed AI-accelerated workflow using Cursor + Claude, reducing development timelines by 60%</li>
+            <li>Delivered conversion optimization for neurosurgery clinics and restaurants through UX redesign and CMS optimization</li>
+          </ul>
+
+          <div class="project-grid rv">
+            <a class="proj-thumb" href="https://lumeoutdoor.com" target="_blank">
+              <img src="thumbnails/lumeoutdoor.png" alt="Lume Outdoor Lighting" loading="lazy">
+              <div class="proj-overlay">
+                <span class="proj-visit">Visit &rarr;</span>
+                <span class="proj-name">Lume Outdoor</span>
+                <span class="proj-type">Outdoor Lighting &middot; $60K Revenue</span>
+              </div>
+            </a>
+            <a class="proj-thumb" href="https://figurastudio.com" target="_blank">
+              <img src="thumbnails/figurastudio.png" alt="Figura Studio" loading="lazy">
+              <div class="proj-overlay">
+                <span class="proj-visit">Visit &rarr;</span>
+                <span class="proj-name">Figura Studio</span>
+                <span class="proj-type">Product &middot; E-Commerce</span>
+              </div>
+            </a>
+            <a class="proj-thumb" href="https://immunesystemkits.com" target="_blank">
+              <img src="thumbnails/immunesystemkits.png" alt="Immune System Kits" loading="lazy">
+              <div class="proj-overlay">
+                <span class="proj-visit">Visit &rarr;</span>
+                <span class="proj-name">Immune System Kits</span>
+                <span class="proj-type">Healthcare &middot; Product</span>
+              </div>
+            </a>
+            <a class="proj-thumb" href="https://moonsour.com" target="_blank">
+              <img src="thumbnails/moonsour.png" alt="Moonsour" loading="lazy">
+              <div class="proj-overlay">
+                <span class="proj-visit">Visit &rarr;</span>
+                <span class="proj-name">Moonsour</span>
+                <span class="proj-type">Restaurant &middot; UX Redesign</span>
+              </div>
+            </a>
+            <a class="proj-thumb" href="https://www.wichita.edu/research/ksbdc/index.php" target="_blank">
+              <img src="thumbnails/ksbdc.png" alt="KSBDC at Wichita State University" loading="lazy">
+              <div class="proj-overlay">
+                <span class="proj-visit">Visit &rarr;</span>
+                <span class="proj-name">KSBDC</span>
+                <span class="proj-type">Wichita State University</span>
+              </div>
+            </a>
+            <a class="proj-thumb" href="https://kettio.com" target="_blank">
+              <img src="thumbnails/kettio.png" alt="Kettio AI" loading="lazy">
+              <div class="proj-overlay">
+                <span class="proj-visit">Visit &rarr;</span>
+                <span class="proj-name">Kettio AI</span>
+                <span class="proj-type">AI &middot; SaaS</span>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="exp-row rv">
+        <div class="exp-when">Summer 2022</div>
+        <div>
+          <div class="exp-role">Store Operations Intern</div>
+          <div class="exp-co">Walmart</div>
+          <ul class="exp-bullets">
+            <li>Completed 10-week leadership and merchandising program</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUOTE STRIP -->
+  <div class="quote-strip rv">
+    <p>"I don't just implement AI tools — I figure out where they actually move the needle for your business."</p>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="s-pad" id="education">
+    <div class="s-header rv">
+      <div class="s-num">02</div>
+      <div class="s-title">Education</div>
+    </div>
+
+    <div class="edu-stack">
+      <div class="edu-card rv">
+        <div class="edu-badge">Master's</div>
+        <div class="edu-degree">Innovation Design</div>
+        <div class="edu-school">Wichita State University — Dec 2025</div>
+        <div class="edu-gpa">4.0</div>
+        <div class="edu-gpa-label">GPA</div>
+      </div>
+      <div class="edu-card rv">
+        <div class="edu-badge">Bachelor's</div>
+        <div class="edu-degree">Fine Arts, Creative Writing</div>
+        <div class="edu-school">Wichita State University — May 2024</div>
+        <div class="edu-gpa">3.7</div>
+        <div class="edu-gpa-label">GPA — Cum Laude</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="s-pad" id="skills">
+    <div class="s-header rv">
+      <div class="s-num">03</div>
+      <div class="s-title">Toolkit</div>
+    </div>
+
+    <div class="skills-wrap rv">
+      <div>
+        <div class="skill-cat">
+          <div class="skill-cat-name">AI & Implementation</div>
+          <div class="skill-pills">
+            <span class="pill">Claude SDK</span>
+            <span class="pill">Claude Code</span>
+            <span class="pill">Agent Integration</span>
+            <span class="pill">Context Engineering</span>
+            <span class="pill">AI Workflow Design</span>
+            <span class="pill">Cursor</span>
+            <span class="pill">MCP</span>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <div class="skill-cat-name">Business Intelligence</div>
+          <div class="skill-pills">
+            <span class="pill">AI-Driven Market Research</span>
+            <span class="pill">Conversion Optimization</span>
+            <span class="pill">A/B Testing</span>
+            <span class="pill">Design Thinking</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="skill-cat">
+          <div class="skill-cat-name">Development</div>
+          <div class="skill-pills">
+            <span class="pill">React</span>
+            <span class="pill">Webflow</span>
+            <span class="pill">Figma</span>
+            <span class="pill">Airtable</span>
+            <span class="pill">CMS</span>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <div class="skill-cat-name">Certification</div>
+          <div class="skill-pills">
+            <span class="pill">PSM 1</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="contact" id="contact">
+    <div class="contact-left rv">
+      <div class="contact-tag">Let's Talk</div>
+      <h2>Ready to build something?</h2>
+      <p>Open to consulting, collaboration, and new opportunities. Let's figure out where AI actually makes sense for your business.</p>
+    </div>
+    <div class="contact-right rv">
+      <a href="mailto:spencer@brandimagegen.com" class="contact-link">
+        <span>Email</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+      <a href="https://linkedin.com/in/spencermerrill" target="_blank" class="contact-link">
+        <span>LinkedIn</span>
+        <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <span>Spencer Merrill &mdash; 2026</span>
+    <span>Built Different</span>
+  </footer>
+
+</div>
+
+<!-- LIGHTBOX -->
+<div class="nl-lightbox" id="nlLightbox" onclick="closeLightbox(event)">
+  <button class="nl-lightbox-close" onclick="closeLightbox(event)">Close &times;</button>
+  <img id="nlLightboxImg" src="" alt="Newsletter full view">
+</div>
+
+<script>
+  function openLightbox(src) {
+    const lb = document.getElementById('nlLightbox');
+    const img = document.getElementById('nlLightboxImg');
+    img.src = src;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (e.target.tagName === 'IMG') return;
+    const lb = document.getElementById('nlLightbox');
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      document.getElementById('nlLightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+
+  function skip() {
+    document.getElementById('newspaper-overlay').style.cssText = 'opacity:0;pointer-events:none;transition:opacity .3s';
+    document.getElementById('site').style.cssText = 'opacity:1;animation:none';
+    document.getElementById('skip-btn').classList.add('gone');
+  }
+
+  setTimeout(() => {
+    const o = document.getElementById('newspaper-overlay');
+    const b = document.getElementById('skip-btn');
+    if (o) o.style.display = 'none';
+    if (b) b.classList.add('gone');
+  }, 4500);
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
