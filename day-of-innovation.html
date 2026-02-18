@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day of Innovation — Spencer Merrill</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --white: #fafafa;
+    --blue: #1d4ed8;
+    --blue-light: #dbeafe;
+    --coral: #ff6b4a;
+    --dark: #0f172a;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--white); color: var(--dark); font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
+  ::selection { background: var(--coral); color: white; }
+
+  /* HERO */
+  .hero {
+    background: var(--dark);
+    color: white;
+    padding: 80px 60px 100px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero::after {
+    content: 'DOI';
+    position: absolute;
+    bottom: -40px;
+    right: 40px;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 240px;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .back-link {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: rgba(255,255,255,0.4);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    transition: color .2s;
+  }
+
+  .back-link:hover { color: white; }
+
+  .hero-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: rgba(255,255,255,0.5);
+    max-width: 600px;
+    line-height: 1.6;
+    margin: 0 auto 48px;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero-stat .hs-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 1;
+    color: var(--coral);
+  }
+
+  .hero-stat .hs-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-top: 4px;
+  }
+
+  /* CONTENT */
+  .content {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 80px 60px;
+  }
+
+  .s-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .s-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: clamp(28px, 4vw, 42px);
+    letter-spacing: -1px;
+    color: var(--dark);
+    margin-bottom: 48px;
+  }
+
+  /* SESSION CARDS */
+  .sessions {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .session-card {
+    border: 1.5px solid var(--gray-light);
+    overflow: hidden;
+    transition: all .3s;
+  }
+
+  .session-card:hover {
+    border-color: var(--blue);
+    box-shadow: 0 8px 30px rgba(29,78,216,0.06);
+  }
+
+  .session-header {
+    background: var(--blue);
+    color: white;
+    padding: 28px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    cursor: pointer;
+  }
+
+  .session-header:hover { background: #1e40af; }
+
+  .session-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .session-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    flex: 1;
+    margin-left: 20px;
+    letter-spacing: -0.3px;
+  }
+
+  .session-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .session-toggle {
+    font-size: 24px;
+    transition: transform .3s;
+  }
+
+  .session-card.open .session-toggle {
+    transform: rotate(45deg);
+  }
+
+  .session-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease;
+  }
+
+  .session-card.open .session-body {
+    max-height: 2000px;
+  }
+
+  .session-inner {
+    padding: 36px;
+  }
+
+  .session-desc {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 28px;
+  }
+
+  .topic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .topic-item {
+    padding: 20px;
+    background: #f8fafc;
+    border: 1px solid var(--gray-light);
+  }
+
+  .topic-item .topic-name {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+
+  .topic-item .topic-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--gray);
+  }
+
+  .tools-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .tool-pill {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: var(--blue-light);
+    color: var(--blue);
+    font-weight: 700;
+  }
+
+  .download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--dark);
+    padding: 12px 24px;
+    border: 1.5px solid var(--dark);
+    transition: all .2s;
+  }
+
+  .download-btn:hover {
+    background: var(--dark);
+    color: white;
+  }
+
+  /* APPROACH SECTION */
+  .approach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+  }
+
+  .approach-card {
+    padding: 32px;
+    border: 1.5px solid var(--gray-light);
+    text-align: center;
+    transition: all .3s;
+  }
+
+  .approach-card:hover {
+    border-color: var(--blue);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(29,78,216,0.08);
+  }
+
+  .approach-icon {
+    font-size: 36px;
+    margin-bottom: 16px;
+  }
+
+  .approach-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+
+  .approach-card p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--gray);
+  }
+
+  /* DIVIDER */
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--blue);
+    margin: 0 auto 80px;
+    opacity: 0.3;
+  }
+
+  /* CURRICULUM + STICKY VIDEO LAYOUT */
+  .curriculum-layout {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 48px;
+    align-items: start;
+  }
+
+  .sticky-video {
+    position: sticky;
+    top: 40px;
+    padding-top: 20px;
+  }
+
+  .sticky-video .video-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .sticky-video .video-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+
+  .sticky-video .ig-embed-wrap {
+    border: 1.5px solid var(--gray-light);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    position: relative;
+    padding-bottom: 125%;
+  }
+
+  .sticky-video .ig-embed-wrap iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .video-fallback {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--dark);
+    padding: 10px 20px;
+    border: 1.5px solid var(--dark);
+    transition: all .2s;
+  }
+
+  .video-fallback:hover {
+    background: var(--dark);
+    color: white;
+  }
+
+  @media (max-width: 900px) {
+    .curriculum-layout {
+      grid-template-columns: 1fr;
+    }
+    .sticky-video {
+      position: relative;
+      top: 0;
+      order: -1;
+      max-width: 400px;
+    }
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 30px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer a, footer span {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.25);
+    text-decoration: none;
+  }
+
+  footer a:hover { color: white; }
+
+  /* REVEAL */
+  .rv { opacity: 0; transform: translateY(40px); transition: opacity .7s ease, transform .7s ease; }
+  .rv.on { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .hero { padding: 60px 28px 80px; }
+    .hero-stats { gap: 28px; }
+    .content { padding: 60px 28px; }
+    .topic-grid { grid-template-columns: 1fr; }
+    .approach-grid { grid-template-columns: 1fr; }
+    .session-name { margin-left: 0; }
+    footer { padding: 20px 28px; flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <a href="index.html" class="back-link">&larr; Back to Portfolio</a>
+  <div class="hero-tag">KSBDC &middot; Wichita State University &middot; SBA</div>
+  <h1>Day of Innovation</h1>
+  <p class="hero-sub">A 6-hour AI training event for small business leaders, government officials, and SBDC advisors across the state of Kansas. 5 hours of original material. One room. One mission: make AI accessible to everyone.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hs-num">400</div>
+      <div class="hs-label">Registered</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-num">200</div>
+      <div class="hs-label">Attended Full Day</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-num">6hrs</div>
+      <div class="hs-label">Live Training</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-num">50%</div>
+      <div class="hs-label">Full-Day Retention</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hs-num">76</div>
+      <div class="hs-label">Slides Prepared</div>
+    </div>
+  </div>
+</div>
+
+<!-- APPROACH -->
+<div class="content">
+  <div class="s-label rv">The Approach</div>
+  <div class="s-title rv">Teaching AI to People Who've Never Used It</div>
+
+  <div class="approach-grid rv">
+    <div class="approach-card">
+      <div class="approach-icon">&#9878;</div>
+      <h3>Real Case Studies</h3>
+      <p>Started with stories people could relate to — Spotify's AI misstep and how the Atlanta Falcons used AI to transform their stadium experience from worst to top 10.</p>
+    </div>
+    <div class="approach-card">
+      <div class="approach-icon">&#9881;</div>
+      <h3>Hands-On Tools</h3>
+      <p>Demonstrated actual tools they could use today — Perplexity for research, Gemini for marketing, Zapier for automation, ManyChat for customer service.</p>
+    </div>
+    <div class="approach-card">
+      <div class="approach-icon">&#9888;</div>
+      <h3>Safety First</h3>
+      <p>Dedicated a full session to cybersecurity — phishing, deepfakes, and data protection. Made sure attendees could adopt AI safely and responsibly.</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SESSIONS + STICKY VIDEO -->
+  <div class="s-label rv">Curriculum</div>
+  <div class="s-title rv">3 Sessions. 76 Slides. 5 Hours of Material.</div>
+
+  <div class="curriculum-layout">
+  <div class="sessions">
+
+    <!-- SESSION 1 -->
+    <div class="session-card open rv">
+      <div class="session-header" onclick="toggleSession(this)">
+        <span class="session-num">01</span>
+        <span class="session-name">Practical Tools for Growing Your Business</span>
+        <span class="session-meta">25 Slides</span>
+        <span class="session-toggle">+</span>
+      </div>
+      <div class="session-body">
+        <div class="session-inner">
+          <p class="session-desc">The foundation session. Demystified AI for a room of business owners who'd never touched it — starting with "what is AI really?" and building up to concrete tools they could implement the same week.</p>
+
+          <div class="topic-grid">
+            <div class="topic-item">
+              <div class="topic-name">The Changing Landscape</div>
+              <div class="topic-desc">Why AI matters now, how the world is shifting, and why small businesses can't afford to get left behind.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">Case Study: Spotify</div>
+              <div class="topic-desc">What happens when AI replaces creativity — the backlash, the stock impact, and the lesson for small business.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">Case Study: Atlanta Falcons</div>
+              <div class="topic-desc">How AI transformed the Mercedes-Benz Stadium from worst to top 10 in the nation through fan experience optimization.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">Content Creation</div>
+              <div class="topic-desc">Using AI to market your business — community, social direction, and networks in the age of AI.</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 8px;">
+            <span class="s-label" style="margin-bottom: 12px; display: block;">Tools Covered</span>
+          </div>
+          <div class="tools-row">
+            <span class="tool-pill">Granola AI</span>
+            <span class="tool-pill">Perplexity</span>
+            <span class="tool-pill">Google Gemini</span>
+            <span class="tool-pill">ManyChat</span>
+            <span class="tool-pill">Tidio</span>
+            <span class="tool-pill">Zapier</span>
+            <span class="tool-pill">Fishbowl</span>
+          </div>
+
+          <a href="day-of-innovation/session-1.pptx" class="download-btn" download>Download Slides &darr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSION 2 -->
+    <div class="session-card rv">
+      <div class="session-header" onclick="toggleSession(this)">
+        <span class="session-num">02</span>
+        <span class="session-name">Prompting in the Real World</span>
+        <span class="session-meta">35 Slides</span>
+        <span class="session-toggle">+</span>
+      </div>
+      <div class="session-body">
+        <div class="session-inner">
+          <p class="session-desc">The deepest session. Taught 200 business owners how to actually communicate with AI — from zero-shot basics to the SCOSTARS framework. Included live exercises where attendees wrote their own prompts for their real businesses.</p>
+
+          <div class="topic-grid">
+            <div class="topic-item">
+              <div class="topic-name">Prompting 101</div>
+              <div class="topic-desc">Zero-shot, few-shot, chain-of-thought, and reasoning prompts — explained with real comparisons side by side.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">SCOSTARS Framework</div>
+              <div class="topic-desc">A structured prompting method: Style, Context, Objective, Scale, Time, Actor, Resources — taught through a live marketing email exercise.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">Live Prompt Writing</div>
+              <div class="topic-desc">Attendees wrote prompts for their own businesses — marketing, scheduling, vendor analysis — and saw results in real time.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">AI Image Generation</div>
+              <div class="topic-desc">Covered free and paid tools (ImageFX, Microsoft Designer, Canva, Sora, MidJourney) with live prompt-to-image demos.</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 8px;">
+            <span class="s-label" style="margin-bottom: 12px; display: block;">Frameworks Taught</span>
+          </div>
+          <div class="tools-row">
+            <span class="tool-pill">Zero-Shot</span>
+            <span class="tool-pill">Few-Shot</span>
+            <span class="tool-pill">Chain-of-Thought</span>
+            <span class="tool-pill">SCOSTARS</span>
+            <span class="tool-pill">Image Prompting</span>
+          </div>
+
+          <a href="day-of-innovation/session-2.pptx" class="download-btn" download>Download Slides &darr;</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SESSION 3 -->
+    <div class="session-card rv">
+      <div class="session-header" onclick="toggleSession(this)">
+        <span class="session-num">03</span>
+        <span class="session-name">AI Empowerment Series — Safety, Marketing &amp; the Human Element</span>
+        <span class="session-meta">16 Slides</span>
+        <span class="session-toggle">+</span>
+      </div>
+      <div class="session-body">
+        <div class="session-inner">
+          <p class="session-desc">The closing session. Covered the full spectrum — from AI-powered marketing campaigns to cybersecurity threats like deepfakes and phishing. Ended with the most important message: AI is a tool, not a replacement. Human-in-the-loop is the future.</p>
+
+          <div class="topic-grid">
+            <div class="topic-item">
+              <div class="topic-name">Marketing in Minutes</div>
+              <div class="topic-desc">Audience analysis, competitive research, content creation, and campaign management — all powered by AI tools.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">Cybersecurity Essentials</div>
+              <div class="topic-desc">Social engineering, data breaches, ransomware, business email compromise — and how to defend against them.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">Deepfake Awareness</div>
+              <div class="topic-desc">What they are, how to detect them (visual + audio analysis), and prevention strategies for business owners.</div>
+            </div>
+            <div class="topic-item">
+              <div class="topic-name">Human-in-the-Loop</div>
+              <div class="topic-desc">The closing thesis — AI should enhance human decision-making, not replace it. Ethical considerations and continuous learning.</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 8px;">
+            <span class="s-label" style="margin-bottom: 12px; display: block;">Topics Covered</span>
+          </div>
+          <div class="tools-row">
+            <span class="tool-pill">AI Marketing</span>
+            <span class="tool-pill">Phishing</span>
+            <span class="tool-pill">Deepfakes</span>
+            <span class="tool-pill">MFA</span>
+            <span class="tool-pill">Ethics</span>
+            <span class="tool-pill">Human-in-the-Loop</span>
+          </div>
+
+          <a href="day-of-innovation/session-3.pptx" class="download-btn" download>Download Slides &darr;</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STICKY VIDEO -->
+  <div class="sticky-video rv">
+    <div class="video-label">Event Recap</div>
+    <div class="video-title">Watch the Day of Innovation</div>
+    <div class="ig-embed-wrap">
+      <iframe src="https://www.instagram.com/reel/DKAP_zbK6k3/embed/" allowfullscreen scrolling="no" loading="lazy"></iframe>
+    </div>
+    <a href="https://www.instagram.com/reel/DKAP_zbK6k3/" target="_blank" class="video-fallback">Open on Instagram &rarr;</a>
+  </div>
+
+  </div><!-- end curriculum-layout -->
+</div>
+
+<footer>
+  <a href="index.html">&larr; Back to Portfolio</a>
+  <span>Spencer Merrill &mdash; Day of Innovation &mdash; 2026</span>
+</footer>
+
+<script>
+  function toggleSession(header) {
+    const card = header.parentElement;
+    card.classList.toggle('open');
+  }
+
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

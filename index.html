@@ -568,6 +568,155 @@
     .project-grid { grid-template-columns: 1fr 1fr; }
   }
 
+  /* ---- EVENT HIGHLIGHT ---- */
+  .event-highlight {
+    margin-top: 32px;
+    border: 1.5px solid var(--blue);
+    background: linear-gradient(135deg, #eff6ff 0%, #f8fafc 100%);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+    transition: all .3s;
+  }
+
+  .event-highlight:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(29,78,216,0.1);
+  }
+
+  .event-content {
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .event-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+
+  .event-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--dark);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  .event-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray);
+    margin-bottom: 20px;
+    flex: 1;
+  }
+
+  .event-stats {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .event-stat {
+    text-align: center;
+  }
+
+  .event-stat .ev-num {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 800;
+    font-size: 32px;
+    color: var(--blue);
+    line-height: 1;
+  }
+
+  .event-stat .ev-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-top: 4px;
+  }
+
+  .event-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: white;
+    background: var(--coral);
+    padding: 12px 24px;
+    border-radius: 0;
+    transition: all .2s;
+    align-self: flex-start;
+  }
+
+  .event-cta:hover {
+    background: #e85a3a;
+  }
+
+  .event-visual {
+    background: var(--blue);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .event-visual .ev-big {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 100px;
+    color: white;
+    opacity: 0.1;
+    position: absolute;
+    bottom: -10px;
+    right: 10px;
+    line-height: 1;
+  }
+
+  .event-visual .ev-headline {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 900;
+    font-size: 48px;
+    color: white;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .event-visual .ev-sub {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    .event-highlight { grid-template-columns: 1fr; }
+  }
+
   /* ---- NEWSLETTER BENTO ---- */
   .newsletter-bento {
     margin-top: 32px;
@@ -1176,6 +1325,39 @@
             <li>Conducted executive training focused on measurable business outcomes</li>
             <li>Secured $100K grant for AI Innovation, driving upskilling across five state centers</li>
           </ul>
+
+          <!-- Day of Innovation -->
+          <a href="day-of-innovation.html" class="event-highlight rv" style="text-decoration:none;color:inherit;">
+            <div class="event-content">
+              <div class="event-tag">Featured Event</div>
+              <div class="event-title">Day of Innovation — 6-Hour AI Training for Kansas Business Leaders</div>
+              <div class="event-desc">Led a full-day, 6-hour AI training session for small business leaders in Wichita. Prepared 5 hours of original material covering practical AI implementation strategies. 400 registered — 200 showed up and stayed for the entire duration, a 50% retention rate that's virtually unheard of for a daylong event.</div>
+              <div class="event-stats">
+                <div class="event-stat">
+                  <div class="ev-num">400</div>
+                  <div class="ev-label">Registered</div>
+                </div>
+                <div class="event-stat">
+                  <div class="ev-num">200</div>
+                  <div class="ev-label">Attended Full Day</div>
+                </div>
+                <div class="event-stat">
+                  <div class="ev-num">6hr</div>
+                  <div class="ev-label">Live Training</div>
+                </div>
+                <div class="event-stat">
+                  <div class="ev-num">50%</div>
+                  <div class="ev-label">Retention Rate</div>
+                </div>
+              </div>
+              <span class="event-cta">View Full Breakdown &rarr;</span>
+            </div>
+            <div class="event-visual">
+              <div class="ev-headline">Day of<br>Innovation</div>
+              <div class="ev-sub">Wichita, KS &middot; KSBDC</div>
+              <div class="ev-big">DOI</div>
+            </div>
+          </a>
 
           <!-- Newsletter Bento -->
           <div class="newsletter-bento">
